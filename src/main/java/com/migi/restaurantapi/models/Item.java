@@ -1,6 +1,11 @@
 package com.migi.restaurantapi.models;
 
+import org.hibernate.validator.constraints.URL;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 
 @Entity
 @Table(name = "items")
@@ -11,15 +16,22 @@ public class Item {
     private Long id;
 
     @Column(name = "name")
+    @NotNull(message = "name is required")
     private String name;
 
     @Column(name = "price")
+    @Positive(message = "price must be positive")
+    @NotNull(message = "price is required")
     private Long price;
 
     @Column(name = "description")
+    @NotNull(message = "description is required")
+    @Pattern(regexp="^[a-zA-Z ]+$", message = "description must be a string")
     private String description;
 
     @Column(name = "image")
+    @NotNull(message = "image is required")
+    @URL(message = "image must be a URL")
     private String image;
 
     public Item(){}

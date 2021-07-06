@@ -4,9 +4,15 @@ import com.migi.restaurantapi.models.Item;
 import com.migi.restaurantapi.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -23,7 +29,7 @@ public class ItemController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Item> saveItem(@RequestBody Item item){
+    public ResponseEntity<Item> saveItem(@Valid @RequestBody Item item){
         Item createdItem = itemService.create(item);
         return ResponseEntity.ok().body(createdItem);
     }
@@ -35,7 +41,7 @@ public class ItemController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Item> updateItem(@PathVariable("id") Long id, @RequestBody Item item){
+    public ResponseEntity<Item> updateItem(@Valid @PathVariable("id") Long id, @RequestBody Item item){
         Optional<Item> updatedItem = itemService.update(id, item);
         return ResponseEntity.of(updatedItem);
     }
